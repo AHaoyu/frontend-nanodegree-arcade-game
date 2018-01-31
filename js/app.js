@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
+var Enemy = function(x, y, speed = 50) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -18,8 +18,20 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
-    collisionCheck();
-    heartCheck();
+    //collison detection
+    if (player.y + 131 >= this.y + 90
+      && player.x + 25 <= this.x + 88
+      && player.y + 73 <= this.y + 135
+      && player.x + 76 >= this.x + 11) {
+      console.log('collison detected!');
+      player.blink(true);
+      setTimeout("Player.blink(false);",20000);
+      player.reset();
+    }
+    if (this.x >= 505) {
+      this.x = 0;
+    }
+    //heartCheck();
 };
 
 // Draw the enemy on the screen, required method for game
@@ -30,14 +42,51 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function() {
+var Player = function(x, y, speed) {
     this.x = x;
     this.y = y;
+    this.speed = speed
     this.sprite = 'images/char-boy.png';
 };
 
 Player.prototype.update = function() {
-    pass
+    if (this.y > 383 ) {
+        this.y = 383;
+    }
+    if (this.x > 402.5) {
+        this.x = 402.5;
+    }
+    if (this.x < 2.5) {
+        this.x = 2.5;
+    }
+    if (this.y + 63 <= 0) {
+        this.x = 202.5;
+        this.y = 383;
+        console.log('Success!');
+    }
+};
+
+Player.prototype.reset = function() {
+    this.x = 202.5;
+    this.y = 383;
+};
+
+Player.prototype.blink = function(TF) {
+    if (TF === true) {
+        var status = 1;
+        function blinking() {
+            if (status === 1) {
+                this.style.visibility = 'visible';
+                status = 0;
+            } else {
+                this.style.visibility = 'hidden';
+                status = 1;
+            }
+        }
+        setInterval('blinking()',100);
+    } else {
+        this.style.visibility = 'visible';
+    }
 };
 
 Player.prototype.render = function() {
@@ -45,12 +94,31 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(inputKeyb){
-    
+switch (inputKeyb) {
+  case 'left':
+    player.x -= player.speed;
+    break;
+  case 'up':
+    player.y -= player.speed;
+    break;
+  case 'right':
+    player.x += player.speed;
+    break;
+  case 'down':
+    player.y += player.speed;
+    break;
+  default:
+    console.log("your inut is invaild!!");
+ } 
 }
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
+var allEnemies = [];
+var player = new Player(202.5, 383, 50);
+var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
+allEnemies.push(enemy);
 
 
 // This listens for key presses and sends the keys to your
