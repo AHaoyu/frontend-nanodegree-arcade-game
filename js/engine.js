@@ -159,7 +159,7 @@ var Engine = (function(global) {
             star.render();
         });
         player.render();
-        //hearts.render();
+        //selector.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -181,7 +181,8 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png',
         'images/Heart.png',
-        'images/Star.png'
+        'images/Star.png',
+        //'images/Selector.png'
     ]);
     Resources.onReady(init);
 

@@ -4,7 +4,6 @@ var Enemy = function(x, y, speed = 50) {
     // we've provided one for you to get started
     this.x = x;
     this.y = y;
-    this.location = (x, y);
     this.speed = speed;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -28,14 +27,17 @@ Enemy.prototype.update = function(dt) {
       player.blink();
       player.reset();
       hearts.pop();
+      if (hearts.length === 0) {
+        gameOver();
+      }
       setTimeout(function () {
           inputAvailable = 1;
           blinkOrnot = 1;
       }, 1200);
-
     }
     if (this.x >= 505) {
       this.x = 0;
+      this.speed = (arr.sort(() => Math.random() - 0.5).slice(0,1))*gameLevel*40;
     }
     //heartCheck();
 };
@@ -56,8 +58,8 @@ var Player = function(x, y, speed) {
 };
 
 Player.prototype.update = function() {
-    if (this.y > 383 ) {
-        this.y = 383;
+    if (this.y > 400 ) {
+        this.y = 400;
     }
     if (this.x > 402.5) {
         this.x = 402.5;
@@ -67,19 +69,22 @@ Player.prototype.update = function() {
     }
     if (this.y + 63 <= 0) {
         this.x = 202.5;
-        this.y = 383;
+        this.y = 400;
         console.log('Success!');
         var i = stars.length;
-        stars[i+1] = new Star(380.5+20*i, 525);
+        gameLevel += 1;
+        stars[i] = new Star(380.5+40*i, 525);
+        enemyReset();
         if (stars.length >= 3) {
           console.log('You win the Game!!!');
+          gameWin();
         }
     }
 };
 
 Player.prototype.reset = function() {
     this.x = 202.5;
-    this.y = 383;
+    this.y = 400;
 };
 
 Player.prototype.blink = function() {
@@ -153,24 +158,48 @@ Star.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 40, 60);
 };
 
+var enemyReset = function() {
+  allEnemies = [];
+  var speedFactor = arr.sort(() => Math.random() - 0.5).slice(0,4);
+  for (var i=0;i<4;i++) {
+    var enemy = new Enemy(0, Ylocation[i], speedFactor[i]*gameLevel*40);
+    allEnemies.push(enemy);
+  }
+};
+
+var gameWin = function() {
+  gameReset();
+};
+
+var gameOver = function() {
+  gameReset();
+};
+
+var gameReset = function() {
+  player.reset();
+  stars = [];
+  for (var i=0;i<3;i++) {
+    hearts[i] = new Heart(5.5+40*i, 530);
+  }
+  gameLevel = 1;
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [];
 var inputAvailable = 1;
 var blinkOrnot = 1;
 var interval = null;
-var player = new Player(202.5, 383, 50);
+var player = new Player(202.5, 400, 80);
 var hearts = [];
 for (var i=0;i<3;i++) {
   hearts[i] = new Heart(5.5+40*i, 530);
 }
-var stars = [];
-
-
-var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
-allEnemies.push(enemy);
-
+stars = [];
+var gameLevel = 1;
+var arr = [2, 4, 6, 8, 10];
+var Ylocation = [60, 145, 228, 310];
+enemyReset();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
