@@ -24,10 +24,10 @@ Enemy.prototype.update = function(dt) {
       && player.y + 73 <= this.y + 135
       && player.x + 76 >= this.x + 11) {
       console.log('collison detected!');
-      //setTimeout("Player.blink(false);",20000);
-      player.reset();
       player.blink(true);
+      player.reset();
     }
+    //blinkornot = 1;
     if (this.x >= 505) {
       this.x = 0;
     }
@@ -71,42 +71,40 @@ Player.prototype.reset = function() {
     this.y = 383;
 };
 
-//Player.prototype.blink = function() {
-//    var player_image = Resources.get(this.sprite);
-//   if (player_image.style.display === "block") {
-//        player_image.style.display = "none";
-//    } else {
-//        player_image.style.display === "block";
-//    }
-//};
-
 Player.prototype.blink = function(TF) {
     var player_image = Resources.get(this.sprite);
     if (TF === true) {
         var status = 1;
+        var blinkTime = 0;
         var blinking = function () {
             if (status === 1) {
-                player_image.style.display = "block";
-                //player_image.style.visibility = 'visible';
+                blinkornot = 1;
                 console.log("visible");
                 status = 0;
+                blinkTime += 1;
             } else {
-                player_image.style.display = "none";
-                //player_image.style.visibility = 'hidden';
+                blinkornot = 0;
                 console.log("hidden");
                 status = 1;
+                blinkTime += 1;
             }
         };
-        setInterval(blinking,100);
+        interval = setInterval(blinking,100);
+        setTimeout(function () {
+            clearInterval(interval);
+            blinkornot = 1;
+        }, 1200);
     } else {
-        player_image.style.display = "block";
+        blinkornot = 1;
         //player_image.style.visibility = 'visible';
         console.log("visible");
     }
 };
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    if (blinkornot === 1) {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
 };
 
 Player.prototype.handleInput = function(inputKeyb){
@@ -132,6 +130,8 @@ switch (inputKeyb) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
+var blinkornot = 1;
+var interval = null;
 var player = new Player(202.5, 383, 50);
 var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
 allEnemies.push(enemy);
