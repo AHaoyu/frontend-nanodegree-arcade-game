@@ -24,9 +24,9 @@ Enemy.prototype.update = function(dt) {
       && player.y + 73 <= this.y + 135
       && player.x + 76 >= this.x + 11) {
       console.log('collison detected!');
-      player.blink(true);
-      setTimeout("Player.blink(false);",20000);
+      //setTimeout("Player.blink(false);",20000);
       player.reset();
+      player.blink(true);
     }
     if (this.x >= 505) {
       this.x = 0;
@@ -71,21 +71,37 @@ Player.prototype.reset = function() {
     this.y = 383;
 };
 
+//Player.prototype.blink = function() {
+//    var player_image = Resources.get(this.sprite);
+//   if (player_image.style.display === "block") {
+//        player_image.style.display = "none";
+//    } else {
+//        player_image.style.display === "block";
+//    }
+//};
+
 Player.prototype.blink = function(TF) {
+    var player_image = Resources.get(this.sprite);
     if (TF === true) {
         var status = 1;
-        function blinking() {
+        var blinking = function () {
             if (status === 1) {
-                this.style.visibility = 'visible';
+                player_image.style.display = "block";
+                //player_image.style.visibility = 'visible';
+                console.log("visible");
                 status = 0;
             } else {
-                this.style.visibility = 'hidden';
+                player_image.style.display = "none";
+                //player_image.style.visibility = 'hidden';
+                console.log("hidden");
                 status = 1;
             }
-        }
-        setInterval('blinking()',100);
+        };
+        setInterval(blinking,100);
     } else {
-        this.style.visibility = 'visible';
+        player_image.style.display = "block";
+        //player_image.style.visibility = 'visible';
+        console.log("visible");
     }
 };
 
