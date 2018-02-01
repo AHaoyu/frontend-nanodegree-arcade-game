@@ -168,14 +168,39 @@ var enemyReset = function() {
 };
 
 var gameWin = function() {
-  gameReset();
+  overlay.classList.add("show");
+  overlay.classList.remove("hide");
+  youWin.classList.add("show");
+  youWin.classList.remove("hide");
+  //gameReset();
 };
 
 var gameOver = function() {
-  gameReset();
+  overlay.classList.add("show");
+  overlay.classList.remove("hide");
+  youLose.classList.add("show");
+  youLose.classList.remove("hide");
+  //gameReset();
+};
+
+var gameInitialization = function() {
+  youWin = document.querySelector(".youWin");
+  youLose = document.querySelector(".youLose");
+  overlay = document.querySelector(".overlay");
+  inputAvailable = 1;
+  blinkOrnot = 1;
+  interval = null;
+  player = new Player(202.5, 400, 80);
+  hearts = [];
 };
 
 var gameReset = function() {
+  overlay.classList.remove("show");
+  youWin.classList.remove("show");
+  youLose.classList.remove("show");
+  overlay.classList.add("hide");
+  youWin.classList.add("hide");
+  youLose.classList.add("hide");
   player.reset();
   stars = [];
   for (var i=0;i<3;i++) {
@@ -187,16 +212,21 @@ var gameReset = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var inputAvailable = 1;
-var blinkOrnot = 1;
-var interval = null;
-var player = new Player(202.5, 400, 80);
-var hearts = [];
-for (var i=0;i<3;i++) {
-  hearts[i] = new Heart(5.5+40*i, 530);
-}
-stars = [];
-var gameLevel = 1;
+//let youWin = document.querySelector(".youWin");
+//let youLose = document.querySelector(".youLose");
+//let overlay = document.querySelector(".overlay");
+//var inputAvailable = 1;
+//var blinkOrnot = 1;
+//var interval = null;
+//var player = new Player(202.5, 400, 80);
+//var hearts = [];
+//for (var i=0;i<3;i++) {
+//  hearts[i] = new Heart(5.5+40*i, 530);
+//}
+//stars = [];
+//var gameLevel = 1;
+gameInitialization();
+gameReset();
 var arr = [2, 4, 6, 8, 10];
 var Ylocation = [60, 145, 228, 310];
 enemyReset();
