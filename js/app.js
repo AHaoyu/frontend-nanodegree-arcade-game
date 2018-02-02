@@ -37,7 +37,7 @@ Enemy.prototype.update = function(dt) {
     }
     if (this.x >= 505) {
       this.x = 0;
-      this.speed = (arr.sort(() => Math.random() - 0.5).slice(0,1))*gameLevel*40;
+      this.speed = (arr.sort(() => Math.random() - 0.5).slice(0,1))*gameLevel*10;
     }
     //heartCheck();
 };
@@ -162,7 +162,7 @@ var enemyReset = function() {
   allEnemies = [];
   var speedFactor = arr.sort(() => Math.random() - 0.5).slice(0,4);
   for (var i=0;i<4;i++) {
-    var enemy = new Enemy(0, Ylocation[i], speedFactor[i]*gameLevel*40);
+    var enemy = new Enemy(0, Ylocation[i], speedFactor[i]*gameLevel*10);
     allEnemies.push(enemy);
   }
 };
