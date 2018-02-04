@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed = 50) {
+var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
@@ -18,10 +18,10 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     this.x += this.speed * dt;
     //collison detection
-    if (player.y + 131 >= this.y + 90
-      && player.x + 25 <= this.x + 88
-      && player.y + 73 <= this.y + 135
-      && player.x + 76 >= this.x + 11) {
+    if (player.y + 55 >= this.y
+      && player.x <= this.x + 78
+      && player.y <= this.y + 71
+      && player.x + 70 >= this.x) {
       console.log('collison detected!');
       hearts.pop();
       player.reset();
@@ -68,7 +68,7 @@ Player.prototype.update = function() {
     if (this.x < 2.5) {
         this.x = 2.5;
     }
-    if (this.y + 63 <= 0) {
+    if (this.y + 40 <= 0) {
         player.reset();
         console.log('Success!');
         var i = stars.length;
@@ -192,7 +192,7 @@ var gameInitialization = function() {
   inputAvailable = 1;
   blinkOrnot = 1;
   interval = null;
-  player = new Player(202.5, 400, 80);
+  player = new Player(202.5, 400, 40);
   hearts = [];
 };
 
