@@ -25,6 +25,7 @@ Enemy.prototype.update = function(dt) {
       console.log('collison detected!');
       hearts.pop();
       player.reset();
+      //heartCheck,if there is no heart left, game over.
       if (hearts.length === 0) {
         gameOver();
       } else {
@@ -36,11 +37,11 @@ Enemy.prototype.update = function(dt) {
         }, 1200);
       }
     }
+    //modified enemy's speed.
     if (this.x >= 505) {
       this.x = 0;
       this.speed = (arr.sort(() => Math.random() - 0.5).slice(0,1))*gameLevel*10;
     }
-    //heartCheck();
 };
 
 // Draw the enemy on the screen, required method for game
@@ -68,6 +69,8 @@ Player.prototype.update = function() {
     if (this.x < 2.5) {
         this.x = 2.5;
     }
+    //if player reach the river, you win the round, add one star.
+    //next level round will be more difficult.
     if (this.y + 40 <= 0) {
         player.reset();
         console.log('Success!');
@@ -75,6 +78,7 @@ Player.prototype.update = function() {
         gameLevel += 1;
         stars[i] = new Star(380.5+40*i, 525);
         enemyReset();
+        //if you have 3 stars, you win the game.
         if (stars.length >= 3) {
           console.log('You win the Game!!!');
           gameWin();
@@ -87,6 +91,7 @@ Player.prototype.reset = function() {
     this.y = 400;
 };
 
+//this function make player blinking if collision takes place.
 Player.prototype.blink = function() {
     var player_image = Resources.get(this.sprite);
     var status = 1;
@@ -117,6 +122,7 @@ Player.prototype.render = function() {
     }
 };
 
+//this funtion enable your arrow keys to move the player
 Player.prototype.handleInput = function(inputKeyb){
   if (inputAvailable === 1) {
     switch (inputKeyb) {
@@ -138,6 +144,7 @@ Player.prototype.handleInput = function(inputKeyb){
   }
 };
 
+//set heart obj.
 var Heart = function(x, y) {
   this.x = x;
   this.y = y;
@@ -148,6 +155,7 @@ Heart.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 40, 60);
 };
 
+//set star obj.
 var Star = function(x, y) {
   this.x = x;
   this.y = y;
@@ -158,6 +166,8 @@ Star.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 40, 60);
 };
 
+//the function produce the enemys with different levels of speed.
+//more faster the enemys are, more difficult game could become.
 var enemyReset = function() {
   allEnemies = [];
   var speedFactor = arr.sort(() => Math.random() - 0.5).slice(0,4);
@@ -167,6 +177,7 @@ var enemyReset = function() {
   }
 };
 
+//this function defines the winning window popping out.
 var gameWin = function() {
   layer.classList.add("show");
   layer.classList.remove("hide");
@@ -176,6 +187,7 @@ var gameWin = function() {
   //gameReset();
 };
 
+//this function defines the game over window popping out.
 var gameOver = function() {
   layer.classList.add("show");
   layer.classList.remove("hide");
@@ -185,6 +197,7 @@ var gameOver = function() {
   //gameReset();
 };
 
+//initiaize the game and produce the obj on the board.
 var gameInitialization = function() {
   youWin = document.querySelector(".youWin");
   youLose = document.querySelector(".youLose");
@@ -196,6 +209,7 @@ var gameInitialization = function() {
   hearts = [];
 };
 
+//reset the game in the next round or if you want try and play again.
 var gameReset = function() {
   layer.classList.remove("show");
   youWin.classList.remove("show");
