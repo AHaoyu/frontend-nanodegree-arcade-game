@@ -1,33 +1,8 @@
 body {
     text-align: center;
 }
-.hide {
-	visibility: hidden;
-	opacity: 0 !important;
-}
-.show {
-	visibility: visible !important;
-	opacity: 1 !important;
-}
-
-.overlay {
-    background: rgba(0, 0, 0, 0.7);
-    transition: opacity 500ms;
-    width: 505px;
-    height: 536px;
-    position: absolute;
-    top: 58px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    border-radius: 5px;
-}
 
 .youWin {
-    font-family: 'Alegreya', serif;
-    position: absolute;
-    background-color: #FFD700;
-    border-radius: 5px; 
     left: 0;
     right: 0;
     top: 250px;
@@ -35,25 +10,25 @@ body {
     height: 133px;
     margin: 0 auto;
     padding: 1em 1em;
+    position: absolute;
+    z-index: 1;
+    background-color: #DAA520;
+    font-family: 'Alegreya', serif;
+    border-radius: 10px;
     color: #fff;
-    visibility: hidden;
 }
 
 .youWin button {
-    background-color: #696969;
     border: none;
-    border-radius: 3px;
+    border-radius: 10px;
     padding: 7px 15px;
+    margin-top: 0.5em;
+    background-color: #00BFFF;
     font-size: 20px;
     color: #fff;
-    margin-top: 0.5em;
 }
 
 .youLose {
-    font-family: 'Alegreya', serif;
-    position: absolute;
-    background-color: #FF0000;
-    border-radius: 5px; 
     left: 0;
     right: 0;
     top: 250px;
@@ -61,17 +36,43 @@ body {
     height: 133px;
     margin: 0 auto;
     padding: 1em 1em;
+    position: absolute;
+    z-index: 1;
+    background-color: #8B0000;
+    font-family: 'Alegreya', serif;
+    border-radius: 10px;
     color: #fff;
-    visibility: hidden;
 }
 
 .youLose button {
-    background-color: #696969;
     border: none;
-    border-radius: 3px;
+    border-radius: 10px;
     padding: 7px 15px;
+    margin-top: 0.5em;
+    background-color: #696969;
     font-size: 20px;
     color: #fff;
-    margin-top: 0.5em;
 }
 
+.backLayer {
+    left: 0;
+    right: 0;
+    top: 58px;
+    width: 505px;
+    height: 536px;
+    position: absolute;
+    z-index: 0;
+    margin: 0 auto;
+    border-radius: 5px;
+    background: rgba(1, 0, 0, 0.3);
+    transition: opacity 500ms;
+}
+
+.hide {
+	visibility: hidden;
+	/*opacity: 0 !important;*/
+}
+.show {
+	visibility: visible ;
+	/*opacity: 1 !important;*/
+}

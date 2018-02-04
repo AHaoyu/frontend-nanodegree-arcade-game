@@ -23,17 +23,18 @@ Enemy.prototype.update = function(dt) {
       && player.y + 73 <= this.y + 135
       && player.x + 76 >= this.x + 11) {
       console.log('collison detected!');
-      inputAvailable = 0;
-      player.blink();
-      player.reset();
       hearts.pop();
+      player.reset();
       if (hearts.length === 0) {
         gameOver();
+      } else {
+        inputAvailable = 0;
+        player.blink();
+        setTimeout(function () {
+            inputAvailable = 1;
+            blinkOrnot = 1;
+        }, 1200);
       }
-      setTimeout(function () {
-          inputAvailable = 1;
-          blinkOrnot = 1;
-      }, 1200);
     }
     if (this.x >= 505) {
       this.x = 0;
@@ -68,8 +69,7 @@ Player.prototype.update = function() {
         this.x = 2.5;
     }
     if (this.y + 63 <= 0) {
-        this.x = 202.5;
-        this.y = 400;
+        player.reset();
         console.log('Success!');
         var i = stars.length;
         gameLevel += 1;
@@ -168,25 +168,27 @@ var enemyReset = function() {
 };
 
 var gameWin = function() {
-  overlay.classList.add("show");
-  overlay.classList.remove("hide");
+  layer.classList.add("show");
+  layer.classList.remove("hide");
   youWin.classList.add("show");
   youWin.classList.remove("hide");
+  inputAvailable = 0;
   //gameReset();
 };
 
 var gameOver = function() {
-  overlay.classList.add("show");
-  overlay.classList.remove("hide");
+  layer.classList.add("show");
+  layer.classList.remove("hide");
   youLose.classList.add("show");
   youLose.classList.remove("hide");
+  inputAvailable = 0;
   //gameReset();
 };
 
 var gameInitialization = function() {
   youWin = document.querySelector(".youWin");
   youLose = document.querySelector(".youLose");
-  overlay = document.querySelector(".overlay");
+  layer = document.querySelector(".backLayer");
   inputAvailable = 1;
   blinkOrnot = 1;
   interval = null;
@@ -195,13 +197,14 @@ var gameInitialization = function() {
 };
 
 var gameReset = function() {
-  overlay.classList.remove("show");
+  layer.classList.remove("show");
   youWin.classList.remove("show");
   youLose.classList.remove("show");
-  overlay.classList.add("hide");
+  layer.classList.add("hide");
   youWin.classList.add("hide");
   youLose.classList.add("hide");
   player.reset();
+  inputAvailable = 1;
   stars = [];
   for (var i=0;i<3;i++) {
     hearts[i] = new Heart(5.5+40*i, 530);
@@ -212,19 +215,6 @@ var gameReset = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-//let youWin = document.querySelector(".youWin");
-//let youLose = document.querySelector(".youLose");
-//let overlay = document.querySelector(".overlay");
-//var inputAvailable = 1;
-//var blinkOrnot = 1;
-//var interval = null;
-//var player = new Player(202.5, 400, 80);
-//var hearts = [];
-//for (var i=0;i<3;i++) {
-//  hearts[i] = new Heart(5.5+40*i, 530);
-//}
-//stars = [];
-//var gameLevel = 1;
 gameInitialization();
 gameReset();
 var arr = [2, 4, 6, 8, 10];
