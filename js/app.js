@@ -60,29 +60,32 @@ var Player = function(x, y, speed) {
 };
 
 Player.prototype.update = function() {
-    if (this.y > 400 ) {
+    if (keyUp1 != keyUp2 && keyUp1 > keyUp2){
+        if (this.y > 400 ) {
         this.y = 400;
-    }
-    if (this.x > 402.5) {
-        this.x = 402.5;
-    }
-    if (this.x < 2.5) {
-        this.x = 2.5;
-    }
-    //if player reach the river, you win the round, add one star.
-    //next level round will be more difficult.
-    if (this.y + 40 <= 0) {
-        player.reset();
-        console.log('Success!');
-        var i = stars.length;
-        gameLevel += 1;
-        stars[i] = new Star(380.5+40*i, 525);
-        enemyReset();
-        //if you have 3 stars, you win the game.
-        if (stars.length >= 3) {
-          console.log('You win the Game!!!');
-          gameWin();
         }
+        if (this.x > 402.5) {
+            this.x = 402.5;
+        }
+        if (this.x < 2.5) {
+            this.x = 2.5;
+        }
+        //if player reach the river, you win the round, add one star.
+        //next level round will be more difficult.
+        if (this.y + 40 <= 0) {
+            this.reset();
+            console.log('Success!');
+            var i = stars.length;
+            gameLevel += 1;
+            stars[i] = new Star(380.5+40*i, 525);
+            enemyReset();
+            //if you have 3 stars, you win the game.
+            if (stars.length >= 3) {
+              console.log('You win the Game!!!');
+              gameWin();
+            }
+        }
+        keyUp2 += 1;
     }
 };
 
@@ -127,16 +130,16 @@ Player.prototype.handleInput = function(inputKeyb){
   if (inputAvailable === 1) {
     switch (inputKeyb) {
       case 'left':
-        player.x -= player.speed;
+        this.x -= this.speed;
         break;
       case 'up':
-        player.y -= player.speed;
+        this.y -= this.speed;
         break;
       case 'right':
-        player.x += player.speed;
+        this.x += this.speed;
         break;
       case 'down':
-        player.y += player.speed;
+        this.y += this.speed;
         break;
       default:
         console.log("your inut is invaild!!");
@@ -177,7 +180,7 @@ var enemyReset = function() {
   }
 };
 
-//this function defines the winning window popping out.
+//this function defines the winning window popping up.
 var gameWin = function() {
   layer.classList.add("show");
   layer.classList.remove("hide");
@@ -187,7 +190,7 @@ var gameWin = function() {
   //gameReset();
 };
 
-//this function defines the game over window popping out.
+//this function defines the game over window popping up.
 var gameOver = function() {
   layer.classList.add("show");
   layer.classList.remove("hide");
@@ -224,6 +227,8 @@ var gameReset = function() {
     hearts[i] = new Heart(5.5+40*i, 530);
   }
   gameLevel = 1;
+  keyUp1 = 0;
+  keyUp2 = 0;
 };
 
 // Now instantiate your objects.
@@ -235,6 +240,7 @@ var arr = [2, 4, 6, 8, 10];
 var Ylocation = [60, 145, 228, 310];
 enemyReset();
 
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -244,6 +250,6 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
+    keyUp1 += 1;
     player.handleInput(allowedKeys[e.keyCode]);
 });
